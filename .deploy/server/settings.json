@@ -1,0 +1,15 @@
+{
+  "public": {},
+  "paperTrailLoggerConfig": {
+    "level": "info",
+    "host": "logs2.papertrailapp.com",
+    "port": 41956,
+    "program": "",
+    "colorize": true,
+    "handleExceptions": true,
+    "attemptsBeforeDecay": 2,
+    "maximumAttempts": 5,
+    "maxDelayBetweenReconnection": 10000,
+    "handleExceptions": true
+  }
+}

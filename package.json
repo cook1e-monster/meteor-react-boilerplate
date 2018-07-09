@@ -1,0 +1,47 @@
+{
+  "name": "meteor-admin-panel",
+  "private": true,
+  "scripts": {
+    "start": "meteor npm install --save && meteor run --settings .deploy/local/settings.json",
+    "test": "meteor test --once --driver-package meteortesting:mocha"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.51",
+    "@coreui/coreui": "^2.0.1",
+    "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
+    "@coreui/icons": "^0.2.0",
+    "@coreui/react": "^2.0.4",
+    "bcrypt": "^3.0.0",
+    "core-js": "^2.5.6",
+    "meteor-node-stubs": "^0.4.1",
+    "moment": "^2.22.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-loadable": "^5.4.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "semantic-ui-react": "^0.82.0",
+    "simpl-schema": "^1.5.0",
+    "winston": "^2.4.1",
+    "winston-papertrail": "^1.0.5"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "tabWidth": 2,
+    "useTabs": true,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "arrowParens": "avoid"
+  },
+  "plugins": [
+    "syntax-dynamic-import"
+  ],
+  "presets": [
+    "react"
+  ]
+}
