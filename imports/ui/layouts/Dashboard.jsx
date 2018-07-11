@@ -13,20 +13,35 @@ import { Header } from '../components/dashboard/Header'
 import AppBreadcrumb from '../components/dashboard/BreadCrumb.jsx'
 
 class Dashboard extends Component {
+  state = { items: [], redirect: false }
+
   componentDidUpdate(prevProps) {
-    if (this.props.redirect !== prevProps.redirect) {
-      this.setState({ redirect: this.props.redirect })
+    //get roles
+    if (this.props.ready !== prevProps.ready) {
+      if (!Roles.userIsInRole(Meteor.userId(), Meteor.settings.public.accessRolesToDashboard)) {
+        return this.setState({ redirect: true })
+      } else {
+        const { routes } = this.props
+
+        const items = []
+
+        if (routes) {
+          routes.map(
+            route =>
+              (route.name || route.title) &&
+              Roles.userIsInRole(Meteor.userId(), Meteor.settings.public.accessRolesToDashboard)
+                ? items.push(route)
+                : null
+          )
+        }
+
+        if (items.length) this.setState({ items })
+      }
     }
   }
 
   render() {
-    const routes = []
-
-    if (this.props.routes) {
-      this.props.routes.map(route => {
-        if (route.name) routes.push(route)
-      })
-    }
+    const { items, redirect } = this.state
 
     return (
       <div className="app">
@@ -38,11 +53,11 @@ class Dashboard extends Component {
         <div className="app-body">
           {/* side bar */}
           <AppSidebar fixed display="lg">
-            <AppSidebarNav navConfig={{ items: routes }} {...this.props} />
+            <AppSidebarNav navConfig={{ items }} {...this.props} />
           </AppSidebar>
 
           <main className="main">
-            <AppBreadcrumb root={'dashboard'} appRoutes={routes} />
+            <AppBreadcrumb root={'dashboard'} appRoutes={this.props.routes} />
 
             <Container fluid>
               <Switch>{renderRoutes(this.props.routes)}</Switch>
@@ -52,20 +67,13 @@ class Dashboard extends Component {
 
         {/* Footer */}
         <AppFooter>footer</AppFooter>
-        {this.props.redirect ? <Redirect to={'/signIn'} /> : null}
+        {redirect ? <Redirect to={'/signIn'} /> : null}
       </div>
     )
   }
 }
-
+//
 export default withTracker(props => {
   const handler = Meteor.subscribe('roles')
-
-  let redirect = Meteor.userId() ? false : true
-
-  if (handler.ready()) {
-    redirect = !Roles.userIsInRole(Meteor.userId(), Meteor.settings.public.accessRolesToDashboard)
-  }
-
-  return { redirect }
+  return { ready: handler.ready() }
 })(Dashboard)
