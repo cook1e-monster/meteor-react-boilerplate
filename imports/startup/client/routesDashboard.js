@@ -32,6 +32,21 @@ export const routes = {
       ]
     },
     {
+      name: 'Admin',
+      title: true,
+      roles: ['admin']
+    },
+    {
+      name: 'jobs',
+      url: '/dashboard/admin/jobs',
+      exact: true,
+      component: Loadable({
+        loading: Loading,
+        loader: () => import('../../ui/components/jobs/TabularTableJobs')
+      }),
+      roles: ['admin']
+    },
+    {
       url: '/500',
       exact: true,
       component: () => <div>500</div>
